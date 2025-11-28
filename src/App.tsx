@@ -1,5 +1,5 @@
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonContent, IonHeader, IonMenuButton, IonPage, IonRouterOutlet, IonSplitPane, IonTitle, IonToolbar, setupIonicReact } from '@ionic/react';
+import { IonApp, IonContent, IonHeader, IonMenuButton, IonPage, IonRouterOutlet, /*IonSplitPane,*/ IonTitle, IonToolbar, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 // import Home from './pages/Home';
 
@@ -33,15 +33,19 @@ import '@ionic/react/css/palettes/dark.system.css';
 /* Theme variables */
 import './theme/variables.css';
 // import Navbar from './components/Navbar';
-import Menu from './components/Menu';
+// import Menu from './components/Menu';
+import Orders from './pages/OrdersPage';
+import OrderingForm from './pages/inputForms/OrderingFormPage';
+import ProcessingForm from './pages/inputForms/ProcessingFormPage';
+import ShippingForm from './pages/inputForms/ShippingFormPage';
 
 setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonSplitPane contentId='main' when='always'>
-        <Menu contentId='main' type='reveal'/>
+      {/* <IonSplitPane contentId='main' when='always'>
+        <Menu contentId='main' type='reveal'/> */}
         <IonPage id="main">
           <IonHeader>
             <IonToolbar>
@@ -51,14 +55,15 @@ const App: React.FC = () => (
           </IonHeader>
           <IonContent>
             <IonRouterOutlet>
-              <Route path="/order" exact >Ordering</Route>
-              <Route path="/processing" exact >Processing</Route>
-              <Route path="/shipping" exact >Shipping</Route>
-              <Redirect exact from="/" to ="/inventory" />
+              <Route path="/orders"><Orders /></Route>
+              <Route path={["/ordering/:id", "/ordering"]} ><OrderingForm /></Route>
+              <Route path="/processing/:id" ><ProcessingForm /></Route>
+              <Route path="/shipping/:id" ><ShippingForm /></Route>
+              <Redirect exact from="/" to ="/orders" />
             </IonRouterOutlet>
           </IonContent>
         </IonPage>
-      </IonSplitPane>
+      {/* </IonSplitPane> */}
     </IonReactRouter>
   </IonApp>
 );
