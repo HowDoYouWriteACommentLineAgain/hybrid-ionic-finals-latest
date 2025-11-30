@@ -11,8 +11,6 @@ const Orders = () => {
 
   const loadSampleIntoPage = async() => {
     try{
-      // const res = await fetch("/sample.json");
-      // const data = await res.json();
       const data = await fb.getOrders();
       setData(data);
     }catch(error){
@@ -22,7 +20,7 @@ const Orders = () => {
 
   useEffect(()=>{
    loadSampleIntoPage();
-  });
+  },[data]);
 
   return (
     <IonPage>

@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, {useState } from "react";
 import { OrderInfo, OrderStatus } from "../../models/Interfaces";
 import { IonBadge, IonButton, IonButtons, IonCol, IonGrid, IonItem, IonItemDivider, IonLabel, IonRow } from "@ionic/react";
 import { deleteOrder } from "../../service/firebaseService";
 
 const OrderTile = (order:OrderInfo) => {
   const [expanded, expand] = useState(false);
-
   const handleExpand = () => {
     expand(a=>!a);
   }
+
   return (
     <React.Fragment>
       <IonItem>
@@ -18,7 +18,7 @@ const OrderTile = (order:OrderInfo) => {
           &nbsp;
           <IonBadge>Status: {order.status}</IonBadge>
         </IonLabel>
-        <IonButton slot="end" expand="full" onClick={handleExpand}>More Info</IonButton>
+        <IonButton slot="end" expand="full" onClick={handleExpand}>{!expanded ? 'More' :'Less'} Info</IonButton>
         <IonButtons>
           {order.status === OrderStatus.ORDERING && (<IonButton slot="end" expand="full" routerLink={`/ordering/${order.id}`}>Order details</IonButton>)}
           {order.status === OrderStatus.PROCESSING && (<IonButton slot="end" expand="full" routerLink={`/processing/${order.id}`}>Processing detals</IonButton>)}

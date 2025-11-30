@@ -2,7 +2,7 @@ import { IonAlert, IonButton, IonContent, IonHeader, IonInput, IonItem, IonList,
 import { useEffect, useState } from "react";
 import {useHistory, useParams} from 'react-router-dom';
 import { OrderInfo, OrderStatus } from "../../models/Interfaces";
-import { createOrder } from "../../service/firebaseService";
+import { createOrder, getOrderById, updateOrder } from "../../service/firebaseService";
 
 const OrderingForm = () => {
   const history = useHistory();
@@ -21,9 +21,7 @@ const OrderingForm = () => {
   const loadDataOrDefault = async()=>{
     if(!id)return;
     try {
-      const res = await fetch(`firebase`);
-      const data: OrderInfo[] | [] = await res.json();
-      const found = data.find(order=> order.id === id) || null;
+      const found = await getOrderById(id);
 
       if (found) {
         setItem(found);
@@ -31,24 +29,31 @@ const OrderingForm = () => {
         return console.warn("Record does not exists");
       }
     } catch (error) {
-       console.error(`Error LoadingData on edit page for id: ${id} Error: ${error}`)
+      console.error(`Error LoadingData on edit page for id: ${id} Error: ${error}`);
+      console.error(error);
     }
   }
 
-  const handleSubmit = async () =>{ 
-    const created = await createOrder(item);
+  const handleSubmit = async (status: OrderStatus) =>{
+    const res:{result:OrderInfo | null, status:boolean} = { result:null, status:false};
+    if(!id){ //Then this must be a new document
+      const created = await createOrder({...item, status: status} as OrderInfo);
+      res.result = created;
+      res.status = true;
+    }else{
+      const updated = await updateOrder({...item, status: status} as OrderInfo);
+      res.result = updated;
+      res.status = true;
+    }
+    
     setAlertOpen(true);
-
-    if(!created){ 
-      setStatus(false)
-    } else { 
-      setStatus(true)
-    };
-  }
+    if(!res.result) setStatus(false);
+    else setStatus(true);
+  };
 
   useEffect(()=>{
     loadDataOrDefault();
-  });
+  },[]);
 
   return (
     <IonPage>
@@ -62,7 +67,7 @@ const OrderingForm = () => {
         <IonAlert
           isOpen={alertOpen}
           header="Success"
-          message={`${status ? 'Succesfully created' : 'Error creating '}: ${item.name}`}
+          message={`${status ? 'Successs ' : 'Error '} on ordering: ${item.name}`}
           buttons={['Dismiss']}
           onDidDismiss={()=>history.push('/orders')}
         ></IonAlert>
@@ -107,7 +112,8 @@ const OrderingForm = () => {
 
           <IonItem>
             <IonList>    
-              <IonButton onClick={handleSubmit}>Save and submit to Processing</IonButton>
+              <IonButton onClick={()=>handleSubmit(OrderStatus.PROCESSING)}>Submit and Proceed to Processing</IonButton>
+              <IonButton onClick={()=>handleSubmit(OrderStatus.ORDERING)}>Save only</IonButton>
             </IonList>
           </IonItem>
         </IonList>
