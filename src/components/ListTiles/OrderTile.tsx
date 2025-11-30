@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { OrderInfo, OrderStatus } from "../../models/Interfaces";
 import { IonBadge, IonButton, IonButtons, IonCol, IonGrid, IonItem, IonItemDivider, IonLabel, IonRow } from "@ionic/react";
+import { deleteOrder } from "../../service/firebaseService";
 
 const OrderTile = (order:OrderInfo) => {
   const [expanded, expand] = useState(false);
@@ -28,7 +29,8 @@ const OrderTile = (order:OrderInfo) => {
           <IonItem>
             <IonGrid>
               <IonRow>
-                <IonCol><IonLabel>test</IonLabel></IonCol>
+                <IonLabel>Delete ID: {order.id}</IonLabel>
+                <IonCol><IonButton onClick={()=>deleteOrder(order.id)}>Delete</IonButton></IonCol>
               </IonRow>
             </IonGrid>
           </IonItem>

@@ -1,24 +1,28 @@
-import { IonContent, IonFab, IonFabButton, IonFabList, IonHeader, IonIcon, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonContent, IonFab, IonFabButton, IonFabList, IonHeader, IonIcon, IonItem, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import {add, clipboard} from 'ionicons/icons';
 import OrderTile from '../components/ListTiles/OrderTile';
+import * as fb from '../service/firebaseService';
 import { OrderInfo, /*PartStatus*/ } from '../models/Interfaces';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import { testSamples } from '../components/ListTiles/ordersSample';
 
 const Orders = () => {
   const [data, setData] = useState<OrderInfo[]>([]);
 
-  useEffect(()=>{
-   (async() => {
-     try {
-      const res = await fetch("/sample.json");
-      const sample = await res.json();
-      setData(sample);
-    } catch (error) {
+  const loadSampleIntoPage = async() => {
+    try{
+      // const res = await fetch("/sample.json");
+      // const data = await res.json();
+      const data = await fb.getOrders();
+      setData(data);
+    }catch(error){
       throw new Error(`Error fetching sample: ${error}`);
     }
-   })();
-  },[]);
+  }
+
+  useEffect(()=>{
+   loadSampleIntoPage();
+  });
 
   return (
     <IonPage>
@@ -29,11 +33,12 @@ const Orders = () => {
       </IonHeader>
       <IonContent>
         <IonList>
-            {data.map((p:OrderInfo)=>(
-              <OrderTile key={p.id} id={p.id} name={p.name} ETA={p.ETA.toString()} quantity={2}  status={p.status} customer={p.customer}  />  
+            {(data.length <= 0) && (<IonItem>Database is Empty</IonItem>)}
+            {data.map(
+              (p:OrderInfo)=>(<React.Fragment key={p.id}>
+                  <OrderTile id={p.id} name={p.name} ETA={p.ETA} quantity={2}  status={p.status} customer={p.customer}  /> 
+              </React.Fragment>
             ))}
-            {/* <OrderTile id={"abc"} name='test' ETA='12/22/2004' quantity={2}  status={PartStatus.PROCESSING} customer='ian'  /> */}
-            {/* <OrderTile id={"abc"} name='test' ETA='12/22/2004' quantity={2}  status={PartStatus.PROCESSING} customer='ian'  /> */}
         </IonList>
 
         <IonFab slot="fixed" horizontal='end' vertical='bottom'>
