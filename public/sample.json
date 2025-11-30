@@ -1,0 +1,100 @@
+[
+  {
+    "id": "ORD-001",
+    "name": "Aluminum Gear Plate",
+    "quantity": 12,
+    "customer": "Delta Robotics",
+    "ETA": "2025-02-14",
+    "status": "Ordered"
+  },
+  {
+    "id": "ORD-002",
+    "name": "Carbon Fiber Rod",
+    "quantity": 40,
+    "customer": "SkyWorks",
+    "ETA": "2025-02-18",
+    "note": "Cut to 1.2m lengths",
+    "materialUsed": [],
+    "progress": 10,
+    "status": "Processing"
+  },
+  {
+    "id": "ORD-003",
+    "name": "Stainless Bolt Set",
+    "quantity": 200,
+    "customer": "MechaTech",
+    "ETA": "2025-02-20",
+    "trackingNumber": "TRK99881234",
+    "destination": "Houston, TX",
+    "shippedDate": "2025-02-09",
+    "status": "Shipped"
+  },
+  {
+    "id": "ORD-004",
+    "name": "Hydraulic Valve",
+    "quantity": 5,
+    "customer": "Prime Engineering",
+    "ETA": "2025-03-01",
+    "status": "Ordered"
+  },
+  {
+    "id": "ORD-005",
+    "name": "Precision Bearing",
+    "quantity": 60,
+    "customer": "Axion Motors",
+    "ETA": "2025-02-22",
+    "note": "Batch inspection required",
+    "materialUsed": ["Steel A2"],
+    "progress": 55,
+    "status": "Processing"
+  },
+  {
+    "id": "ORD-006",
+    "name": "Copper Wiring Set",
+    "quantity": 100,
+    "customer": "Volt Industrial",
+    "ETA": "2025-02-25",
+    "trackingNumber": "TRK22003421",
+    "destination": "Seattle, WA",
+    "shippedDate": "2025-02-10",
+    "status": "Shipped"
+  },
+  {
+    "id": "ORD-007",
+    "name": "Pneumatic Cylinder",
+    "quantity": 8,
+    "customer": "Machina Corp",
+    "ETA": "2025-03-05",
+    "status": "Ordered"
+  },
+  {
+    "id": "ORD-008",
+    "name": "Silicon Gasket Set",
+    "quantity": 150,
+    "customer": "AeroSeal",
+    "ETA": "2025-02-26",
+    "note": "Requires heat-curing",
+    "materialUsed": ["Silicon Resin"],
+    "progress": 85,
+    "status": "Processing"
+  },
+  {
+    "id": "ORD-009",
+    "name": "Steel Frame Bracket",
+    "quantity": 24,
+    "customer": "IronCraft",
+    "ETA": "2025-02-28",
+    "trackingNumber": "TRK77100219",
+    "destination": "Chicago, IL",
+    "shippedDate": "2025-02-12",
+    "status": "Shipped"
+  },
+  {
+    "id": "ORD-010",
+    "name": "ABS Plastic Housing",
+    "quantity": 70,
+    "customer": "Novatek",
+    "ETA": "2025-03-02",
+    "status": "Ordered"
+  }
+]

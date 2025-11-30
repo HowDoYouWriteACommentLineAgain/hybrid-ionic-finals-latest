@@ -3,13 +3,21 @@ import {add, clipboard} from 'ionicons/icons';
 import OrderTile from '../components/ListTiles/OrderTile';
 import { OrderInfo, /*PartStatus*/ } from '../models/Interfaces';
 import { useEffect, useState } from 'react';
-import { testSamples } from '../components/ListTiles/ordersSample';
+// import { testSamples } from '../components/ListTiles/ordersSample';
 
 const Orders = () => {
   const [data, setData] = useState<OrderInfo[]>([]);
 
   useEffect(()=>{
-    setData(testSamples); 
+   (async() => {
+     try {
+      const res = await fetch("/sample.json");
+      const sample = await res.json();
+      setData(sample);
+    } catch (error) {
+      throw new Error(`Error fetching sample: ${error}`);
+    }
+   })();
   },[]);
 
   return (
