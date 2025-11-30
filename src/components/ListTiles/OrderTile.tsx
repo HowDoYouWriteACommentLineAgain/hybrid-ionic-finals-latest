@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { OrderInfo } from "../../models/Interfaces";
+import { OrderInfo, OrderStatus } from "../../models/Interfaces";
 import { IonBadge, IonButton, IonButtons, IonCol, IonGrid, IonItem, IonItemDivider, IonLabel, IonRow } from "@ionic/react";
 
 const OrderTile = (order:OrderInfo) => {
@@ -9,7 +9,7 @@ const OrderTile = (order:OrderInfo) => {
     expand(a=>!a);
   }
   return (
-    <React.Fragment key={order.id}>
+    <React.Fragment>
       <IonItem>
         <IonLabel>
           <h1>{order.name}</h1>
@@ -19,9 +19,9 @@ const OrderTile = (order:OrderInfo) => {
         </IonLabel>
         <IonButton slot="end" expand="full" onClick={handleExpand}>More Info</IonButton>
         <IonButtons>
-          <IonButton slot="end" expand="full" routerLink={`/processing/${order.id}`}>Order</IonButton>
-          <IonButton slot="end" expand="full" routerLink={`/processing/${order.id}`}>Processing</IonButton>
-          <IonButton slot="end" expand="full" routerLink={`/processing/${order.id}`}>Shipping</IonButton>
+          {order.status === OrderStatus.ORDERING && (<IonButton slot="end" expand="full" routerLink={`/ordering/${order.id}`}>Order details</IonButton>)}
+          {order.status === OrderStatus.PROCESSING && (<IonButton slot="end" expand="full" routerLink={`/processing/${order.id}`}>Processing detals</IonButton>)}
+          {order.status === OrderStatus.SHIPPING && (<IonButton slot="end" expand="full" routerLink={`/shipiping/${order.id}`}>Shipping details</IonButton>)}
         </IonButtons>
       </IonItem>
         { expanded && <>
