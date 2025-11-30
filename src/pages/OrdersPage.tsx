@@ -1,8 +1,17 @@
 import { IonContent, IonFab, IonFabButton, IonFabList, IonHeader, IonIcon, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import {add, clipboard} from 'ionicons/icons';
-import OrderTile from '../components/ListTiles/Orders';
-import { shippingStatus } from '../models/Interfaces';
+import OrderTile from '../components/ListTiles/OrderTile';
+import { OrderInfo, /*PartStatus*/ } from '../models/Interfaces';
+import { useEffect, useState } from 'react';
+import { testSamples } from '../components/ListTiles/ordersSample';
+
 const Orders = () => {
+  const [data, setData] = useState<OrderInfo[]>([]);
+
+  useEffect(()=>{
+    setData(testSamples); 
+  },[]);
+
   return (
     <IonPage>
       <IonHeader>
@@ -12,8 +21,11 @@ const Orders = () => {
       </IonHeader>
       <IonContent>
         <IonList>
-            <OrderTile id={"abc"} name='test' ETA='12/22/2004' quantity={2}  status={shippingStatus.PROCESSING} customer='ian'  />
-            <OrderTile id={"abc"} name='test' ETA='12/22/2004' quantity={2}  status={shippingStatus.PROCESSING} customer='ian'  />
+            {data.map((p:OrderInfo)=>(
+              <OrderTile key={p.id} id={p.id} name={p.name} ETA={p.ETA.toString()} quantity={2}  status={p.status} customer={p.customer}  />  
+            ))}
+            {/* <OrderTile id={"abc"} name='test' ETA='12/22/2004' quantity={2}  status={PartStatus.PROCESSING} customer='ian'  /> */}
+            {/* <OrderTile id={"abc"} name='test' ETA='12/22/2004' quantity={2}  status={PartStatus.PROCESSING} customer='ian'  /> */}
         </IonList>
 
         <IonFab slot="fixed" horizontal='end' vertical='bottom'>
