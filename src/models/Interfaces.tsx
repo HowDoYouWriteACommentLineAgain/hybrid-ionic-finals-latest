@@ -17,11 +17,11 @@ export interface OrderInfo{
   destination?:string;
   shippedDate?:string;
 
-  status: shippingStatus;
+  status: OrderStatus;
 }
 
-export enum shippingStatus{
-  ORDERED = 'Ordered',
+export enum OrderStatus{
+  ORDERING = 'Ordered',
   PROCESSING = 'Processing',
-  SHIPPED = 'Shipped',
+  SHIPPING = 'Shipped',
 }
