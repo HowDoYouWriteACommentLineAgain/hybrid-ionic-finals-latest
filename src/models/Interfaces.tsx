@@ -35,10 +35,13 @@ export const defaultBlank: OrderInfo = {
   id: "",
   name: "",
   quantity: 0,
+  note:"",
 
   customer: "",
   ETA: "",
-  note:"",
+  
+  processingId: "",
+  progress: 0,
 
   trackingNumber:"",
   destination:"",
