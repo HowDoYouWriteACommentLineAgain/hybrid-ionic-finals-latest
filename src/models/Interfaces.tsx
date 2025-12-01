@@ -24,12 +24,25 @@ export interface OrderInfo{
   status: OrderStatus;
 }
 
-export enum OrderCategory{
-
-}
-
 export enum OrderStatus{
   ORDERING = 'Ordered',
   PROCESSING = 'Processing',
   SHIPPING = 'Shipped',
+  INACTIVE = 'inactive'
 }
+
+export const defaultBlank: OrderInfo = {
+  id: "",
+  name: "",
+  quantity: 0,
+
+  customer: "",
+  ETA: "",
+  note:"",
+
+  trackingNumber:"",
+  destination:"",
+  shippedDate:"",
+  status: OrderStatus.SHIPPING
+}
+
