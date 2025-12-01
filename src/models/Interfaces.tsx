@@ -6,18 +6,26 @@ export interface OrderInfo{
   //stage 1
   customer: string;
   ETA: string;
+  note?:string;
 
   //stage 2
-  note?:string;
-  materialUsed?: string[];
+  // TODO: note should be still accessible here
+  processingId?: string;
   progress?: number;
 
   //stage 3
+  
+  //note is still accessible here
+
   trackingNumber?:string;
   destination?:string;
   shippedDate?:string;
 
   status: OrderStatus;
+}
+
+export enum OrderCategory{
+
 }
 
 export enum OrderStatus{

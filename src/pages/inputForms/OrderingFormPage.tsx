@@ -1,13 +1,13 @@
-import { IonAlert, IonButton, IonContent, IonHeader, IonInput, IonItem, IonList, IonPage, IonTitle, IonToolbar } from "@ionic/react";
-import { useEffect, useState } from "react";
-import {useHistory, useParams} from 'react-router-dom';
+import { IonAlert, IonButton, IonContent, IonHeader, IonInput, IonItem, IonList, IonPage, IonTitle, IonToolbar, useIonRouter, useIonViewWillEnter } from "@ionic/react";
+import {useState } from "react";
+import {useParams} from 'react-router-dom';
 import { OrderInfo, OrderStatus } from "../../models/Interfaces";
 import { createOrder, getOrderById, updateOrder } from "../../service/firebaseService";
 
 const OrderingForm = () => {
-  const history = useHistory();
+  const router = useIonRouter();
   const {id} = useParams<{id:string}>();
-  const [status, setStatus] = useState(true);
+  const [success, setSuccess] = useState(true);
   const [alertOpen, setAlertOpen] = useState(false);
   const [item, setItem] = useState<OrderInfo>({
     id: "",
@@ -19,13 +19,13 @@ const OrderingForm = () => {
   });
 
   const loadDataOrDefault = async()=>{
-    if(!id)return;
     try {
       const found = await getOrderById(id);
 
       if (found) {
         setItem(found);
       }else{
+        //TODO: add alert here for error
         return console.warn("Record does not exists");
       }
     } catch (error) {
@@ -35,6 +35,8 @@ const OrderingForm = () => {
   }
 
   const handleSubmit = async (status: OrderStatus) =>{
+    console.log("Handle submit was innoked");
+    console.log(alertOpen);
     const res:{result:OrderInfo | null, status:boolean} = { result:null, status:false};
     if(!id){ //Then this must be a new document
       const created = await createOrder({...item, status: status} as OrderInfo);
@@ -47,13 +49,25 @@ const OrderingForm = () => {
     }
     
     setAlertOpen(true);
-    if(!res.result) setStatus(false);
-    else setStatus(true);
+    if(!res.result) setSuccess(false);
+    else setSuccess(true);
   };
 
-  useEffect(()=>{
+  useIonViewWillEnter(()=>{
+    setSuccess(true);
+    setAlertOpen(false);
+    if(!id){// Data must be new
+      return setItem({
+        id: "",
+        name: "",
+        quantity: 0,
+        customer: "",
+        ETA: "",
+        status: OrderStatus.ORDERING
+      });
+    };
     loadDataOrDefault();
-  },[]);
+  });
 
   return (
     <IonPage>
@@ -67,9 +81,9 @@ const OrderingForm = () => {
         <IonAlert
           isOpen={alertOpen}
           header="Success"
-          message={`${status ? 'Successs ' : 'Error '} on ordering: ${item.name}`}
+          message={`${success ? 'Successs ' : 'Error '} on ordering: ${item.name}`}
           buttons={['Dismiss']}
-          onDidDismiss={()=>history.push('/orders')}
+          onDidDismiss={()=>success && router.push('/orders') || setAlertOpen(false)}
         ></IonAlert>
         <IonList>
           <IonItem>
