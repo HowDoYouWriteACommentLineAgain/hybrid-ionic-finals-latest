@@ -29,7 +29,7 @@ export const deleteOrder = async (id: string) => {
   return true;
 };
 
-export const updateOrder = async (order: OrderInfo): Promise<OrderInfo> => {
+export const updateOrder = async (order: Partial<OrderInfo> & {id:string}): Promise<Partial<OrderInfo>> => {
   const {id, ...data} = order;
   const docRef = doc(db, "orders", id);
   await updateDoc(docRef, data);
