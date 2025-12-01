@@ -40,7 +40,8 @@ const ProcessingForm = () => {
   }
 
   const handleSubmit = async (status: OrderStatus) =>{
-    const updated = await updateOrder({...item, status: status} as OrderInfo);
+    const {id, note, processingId, progress} = item;
+    const updated = await updateOrder({id, note, processingId, progress, status: status} as OrderInfo);
     setAlertOpen(true);
     if(!updated) setSuccess(false);
     else setSuccess(true);
@@ -115,8 +116,7 @@ const ProcessingForm = () => {
           
           <IonItem>
             <IonRange 
-              value={item.progress || 0} 
-              // onIonChange={e=>setItem(i=>({...i, progress: e.detail.value!}))} 
+              value={item.progress || 0}
               onIonChange={(e)=>setItem(i=>({...i, progress: Number(e.detail.value)}))}
               labelPlacement="stacked" 
               label="Progress"
@@ -130,7 +130,7 @@ const ProcessingForm = () => {
 
           <IonItem>
             <IonList>    
-              <IonButton onClick={()=>handleSubmit(OrderStatus.SHIPPING)} disabled={(item.progress === 10)}>Submit and Proceed to Shipping</IonButton>
+              <IonButton onClick={()=>handleSubmit(OrderStatus.SHIPPING)} disabled={((Number(item.progress) || 0) !== 10)}>Submit and Proceed to Shipping</IonButton>
               <IonButton onClick={()=>handleSubmit(OrderStatus.PROCESSING)}>Save only</IonButton>
             </IonList>
           </IonItem>
