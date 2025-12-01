@@ -22,7 +22,7 @@ const OrderTile = (order:OrderInfo) => {
         <IonButtons>
           {order.status === OrderStatus.ORDERING && (<IonButton slot="end" expand="full" routerLink={`/ordering/${order.id}`}>Order details</IonButton>)}
           {order.status === OrderStatus.PROCESSING && (<IonButton slot="end" expand="full" routerLink={`/processing/${order.id}`}>Processing detals</IonButton>)}
-          {order.status === OrderStatus.SHIPPING && (<IonButton slot="end" expand="full" routerLink={`/shipiping/${order.id}`}>Shipping details</IonButton>)}
+          {order.status === OrderStatus.SHIPPING && (<IonButton slot="end" expand="full" routerLink={`/shipping/${order.id}`}>Shipping details</IonButton>)}
         </IonButtons>
       </IonItem>
         { expanded && <>
