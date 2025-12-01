@@ -1,5 +1,5 @@
-import { IonAlert, IonButton, IonContent, IonHeader, IonInput, IonItem, IonList, IonPage, IonRange, IonTextarea, IonTitle, IonToolbar, useIonRouter, useIonViewWillEnter } from "@ionic/react";
-import { useParams} from 'react-router-dom';
+import { IonAlert, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonChip, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonList, IonPage, IonRange, IonRow, IonTextarea, IonTitle, IonToolbar, useIonRouter, useIonViewWillEnter } from "@ionic/react";
+import { useParams } from 'react-router-dom';
 import { getOrderById, updateOrder } from "../../service/firebaseService";
 import { OrderInfo, OrderStatus } from "../../models/Interfaces";
 import { useState } from "react";
@@ -70,6 +70,31 @@ const ProcessingForm = () => {
           onDidDismiss={()=>success && router.push('/orders') || setAlertOpen(false)}
         ></IonAlert>
         <IonList>
+          <IonItem>
+              <IonGrid>
+                <IonRow>
+                  <IonCol>
+                    <IonCard >
+                      <IonCardHeader>
+                        <IonCardTitle>Order Info:</IonCardTitle>
+                      </IonCardHeader>
+                      <IonCardContent>
+                        <IonGrid>
+                          <IonRow>
+                            <IonCol></IonCol>
+                            <IonCol>
+                              <IonLabel><IonChip>{item.name}</IonChip> for <IonChip>{item.customer}</IonChip></IonLabel>
+                              <IonLabel><IonChip>{`x${item.quantity}`}</IonChip> expected on: <IonChip>{item.ETA}</IonChip></IonLabel>
+                            </IonCol>
+                            <IonCol></IonCol>
+                          </IonRow>
+                        </IonGrid>
+                      </IonCardContent>
+                    </IonCard>
+                  </IonCol>
+                </IonRow>
+              </IonGrid> 
+          </IonItem>
           <IonItem>
             <IonTextarea 
               value={item.note || ""} 
