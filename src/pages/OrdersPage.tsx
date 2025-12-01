@@ -2,7 +2,7 @@ import { IonContent, IonFab, IonFabButton, IonFabList, IonHeader, IonIcon, IonIt
 import {add, clipboard} from 'ionicons/icons';
 import OrderTile from '../components/ListTiles/OrderTile';
 import * as fb from '../service/firebaseService';
-import { OrderInfo, /*PartStatus*/ } from '../models/Interfaces';
+import { OrderInfo, OrderStatus, /*PartStatus*/ } from '../models/Interfaces';
 import React, { useEffect, useState } from 'react';
 // import { testSamples } from '../components/ListTiles/ordersSample';
 
@@ -32,11 +32,16 @@ const Orders = () => {
       <IonContent>
         <IonList>
           {(data.length <= 0) && (<IonItem>Database is Empty</IonItem>)}
-          {data.map(
-            (p:OrderInfo)=>(<React.Fragment key={p.id}>
-                <OrderTile id={p.id} name={p.name} ETA={p.ETA} quantity={2}  status={p.status} customer={p.customer}  /> 
-            </React.Fragment>
-          ))}
+          {data
+            .filter((p)=>!(p.status === OrderStatus.INACTIVE))
+            .map(
+              (p:OrderInfo)=>(
+                <React.Fragment key={p.id}>
+                  <OrderTile id={p.id} name={p.name} ETA={p.ETA} quantity={2}  status={p.status} customer={p.customer}  /> 
+                </React.Fragment>
+              )
+            )
+          }
         </IonList>
 
         <IonFab slot="fixed" horizontal='end' vertical='bottom'>
