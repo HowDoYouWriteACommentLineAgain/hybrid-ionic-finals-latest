@@ -31,21 +31,21 @@ const Orders = () => {
       </IonHeader>
       <IonContent>
         <IonList>
-            {(data.length <= 0) && (<IonItem>Database is Empty</IonItem>)}
-            {data.map(
-              (p:OrderInfo)=>(<React.Fragment key={p.id}>
-                  <OrderTile id={p.id} name={p.name} ETA={p.ETA} quantity={2}  status={p.status} customer={p.customer}  /> 
-              </React.Fragment>
-            ))}
+          {(data.length <= 0) && (<IonItem>Database is Empty</IonItem>)}
+          {data.map(
+            (p:OrderInfo)=>(<React.Fragment key={p.id}>
+                <OrderTile id={p.id} name={p.name} ETA={p.ETA} quantity={2}  status={p.status} customer={p.customer}  /> 
+            </React.Fragment>
+          ))}
         </IonList>
 
         <IonFab slot="fixed" horizontal='end' vertical='bottom'>
-          <IonFabButton>
-            <IonIcon icon={add}></IonIcon>
+          <IonFabButton style={{"width":"80px","height":"80px"}}>
+            <IonIcon icon={add} size='large'></IonIcon>
           </IonFabButton>
           <IonFabList side='top'>
-            <IonFabButton routerLink='/ordering'>
-              <IonIcon icon={clipboard} ></IonIcon>
+            <IonFabButton routerLink='/ordering' style={{"width":"80px","height":"80px"}}>
+              <IonIcon icon={clipboard} size='large'></IonIcon>
             </IonFabButton>
           </IonFabList>
         </IonFab>

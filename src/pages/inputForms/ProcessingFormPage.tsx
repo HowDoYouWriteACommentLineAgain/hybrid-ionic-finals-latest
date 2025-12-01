@@ -84,7 +84,7 @@ const ProcessingForm = () => {
                             <IonCol></IonCol>
                             <IonCol>
                               <IonLabel><IonChip>{item.name}</IonChip> for <IonChip>{item.customer}</IonChip></IonLabel>
-                              <IonLabel><IonChip>{`x${item.quantity}`}</IonChip> expected on: <IonChip>{item.ETA}</IonChip></IonLabel>
+                              <IonLabel><IonChip>{`x${item.quantity}`} Piece/s</IonChip> expected on: <IonChip>{item.ETA}</IonChip></IonLabel>
                             </IonCol>
                             <IonCol></IonCol>
                           </IonRow>
@@ -120,14 +120,17 @@ const ProcessingForm = () => {
               onIonChange={(e)=>setItem(i=>({...i, progress: Number(e.detail.value)}))}
               labelPlacement="stacked" 
               label="Progress"
-              pin={true} pinFormatter={(value: number) => `Stage: ${value}`}
+              pin={true} pinFormatter={(value: number) => `${value}`}
               ticks={true} snaps={true} min={0} max={10}
-            ></IonRange>
+            >
+              <IonLabel slot="start">Stage: 0</IonLabel>
+              <IonLabel slot="end">Stage: 10</IonLabel>
+            </IonRange>
           </IonItem>
 
           <IonItem>
             <IonList>    
-              <IonButton onClick={()=>handleSubmit(OrderStatus.SHIPPING)}>Submit and Proceed to Shipping</IonButton>
+              <IonButton onClick={()=>handleSubmit(OrderStatus.SHIPPING)} disabled={(item.progress === 10)}>Submit and Proceed to Shipping</IonButton>
               <IonButton onClick={()=>handleSubmit(OrderStatus.PROCESSING)}>Save only</IonButton>
             </IonList>
           </IonItem>
