@@ -1,8 +1,10 @@
-import { IonAlert, IonBackButton, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonInput, IonItem, IonList, IonPage, IonTitle, IonToolbar, useIonRouter, useIonViewWillEnter } from "@ionic/react";
+import { IonAlert, IonBackButton, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonList, IonPage, IonTitle, IonToolbar, useIonRouter, useIonViewWillEnter } from "@ionic/react";
 import { useState } from "react";
 import { useParams } from 'react-router-dom';
 import { OrderInfo, OrderStatus } from "../../models/Interfaces";
 import { getOrderById, updateOrder } from "../../service/firebaseService";
+import { scan } from "ionicons/icons";
+import { scanBarcodeAndDo } from "../../service/barcdodeService";
 
 const ShippingForm = () => {
   const router = useIonRouter();
@@ -102,6 +104,7 @@ const ShippingForm = () => {
               label="Tracking Number" 
               labelPlacement="floating"
             />
+            <IonButton onClick={async()=> await scanBarcodeAndDo((s)=>setItem(i=>({...i, trackingNumber:s})))}><IonIcon icon={scan} /></IonButton>
           </IonItem>
           
           <IonItem>

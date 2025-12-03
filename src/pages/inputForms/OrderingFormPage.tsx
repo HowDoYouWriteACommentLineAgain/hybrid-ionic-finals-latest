@@ -35,15 +35,14 @@ const OrderingForm = () => {
   }
 
   const handleSubmit = async (status: OrderStatus) =>{
-    console.log("Handle submit was innoked");
-    console.log(alertOpen);
-    const res:{result:OrderInfo | null, status:boolean} = { result:null, status:false};
+    const res:{result:Partial<OrderInfo> | null, status:boolean} = { result:null, status:false};
     if(!id){ //Then this must be a new document
       const created = await createOrder({...item, status: status} as OrderInfo);
       res.result = created;
       res.status = true;
     }else{
-      const updated = await updateOrder({...item, status: status} as OrderInfo);
+      const {id, name, quantity,customer, ETA, status} = item;
+      const updated = await updateOrder({id, name, quantity, customer, ETA , status: status} as OrderInfo);
       res.result = updated;
       res.status = true;
     }
