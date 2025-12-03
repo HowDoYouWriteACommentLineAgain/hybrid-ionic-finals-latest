@@ -1,12 +1,23 @@
 import React, {useState } from "react";
 import { OrderInfo, OrderStatus } from "../../models/Interfaces";
-import { IonBadge, IonButton, IonButtons, IonCol, IonGrid, IonItem, IonItemDivider, IonLabel, IonRow } from "@ionic/react";
+import { IonBadge, IonButton, IonButtons, IonCol, IonGrid, IonInput, IonItem, IonLabel, IonRow, useIonRouter } from "@ionic/react";
 import { deleteOrder } from "../../service/firebaseService";
 
 const OrderTile = (order:OrderInfo) => {
+  const router = useIonRouter();
   const [expanded, expand] = useState(false);
+  const [confirmDeleteInput, setConfirmDeleteInput] = useState("");
   const handleExpand = () => {
     expand(a=>!a);
+  }
+
+  const blockDelete = ():boolean | undefined =>{
+    return (confirmDeleteInput === order.name) ? false :true;
+  }
+
+  const handleDelete = () => {
+    deleteOrder(order.id);
+    router.push('/');
   }
 
   return (
@@ -18,25 +29,39 @@ const OrderTile = (order:OrderInfo) => {
           &nbsp;
           <IonBadge>Status: {order.status}</IonBadge>
         </IonLabel>
-        <IonButton slot="end" expand="full" onClick={handleExpand}>{!expanded ? 'More' :'Less'} Info</IonButton>
+        <IonButton slot="end" expand="full" onClick={handleExpand}>{!expanded ? 'More' :'Less'} Options</IonButton>
         <IonButtons>
           {order.status === OrderStatus.ORDERING && (<IonButton slot="end" expand="full" routerLink={`/ordering/${order.id}`}>Order details</IonButton>)}
-          {order.status === OrderStatus.PROCESSING && (<IonButton slot="end" expand="full" routerLink={`/processing/${order.id}`}>Processing detals</IonButton>)}
+          {order.status === OrderStatus.PROCESSING && (<IonButton slot="end" expand="full" routerLink={`/processing/${order.id}`}>Processing details</IonButton>)}
           {order.status === OrderStatus.SHIPPING && (<IonButton slot="end" expand="full" routerLink={`/shipping/${order.id}`}>Shipping details</IonButton>)}
         </IonButtons>
       </IonItem>
-        { expanded && <>
-          <IonItem>
+        <>
+          <IonItem style={{"display": expanded ? "block" : "none" }} >
             <IonGrid>
               <IonRow>
-                <IonLabel>Delete ID: {order.id}</IonLabel>
-                <IonCol><IonButton onClick={()=>deleteOrder(order.id)}>Delete</IonButton></IonCol>
+                <IonCol size="8">
+                  <IonInput 
+                    label="Enter name to confirm delete"
+                    labelPlacement="floating"
+                    type="text"
+                    clearOnEdit={false}
+                    value={confirmDeleteInput || ""}
+                    onIonInput={(e)=>setConfirmDeleteInput(e.detail.value ?? "")}
+                  ></IonInput>
+                </IonCol>
+                <IonCol size="4">
+                  <IonButton 
+                    size="large" 
+                    expand="block" 
+                    onClick={handleDelete}
+                    disabled={blockDelete()}
+                  >Delete</IonButton>
+                </IonCol>
               </IonRow>
             </IonGrid>
           </IonItem>
-          <IonItemDivider/>
-        </>}
-      
+        </>
     </React.Fragment>
   )
 }
